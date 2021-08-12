@@ -4,7 +4,7 @@ xquery version "3.1";
  : A very simple example XQuery Library Module implemented
  : in XQuery.
  :)
-module namespace myxqmod = "https://my-organisation.com/exist-db/ns/app/my-xquery-module";
+module namespace myxqmod = "https://exist-db.org/exist-db/ns/app/scheduler/my-xquery-module";
 
 declare function myxqmod:say-hello($name as xs:string?) as document-node(element(hello)) {
     document {

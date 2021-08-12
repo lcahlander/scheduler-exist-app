@@ -42,7 +42,7 @@
     <!-- include the XQuery Library modules written in XQuery from this project -->
     <xquerySets>
         <xquerySet>
-            <namespace>https://my-organisation.com/exist-db/ns/app/my-xquery-module</namespace>
+            <namespace>https://my-organisation.com/exist-db/ns/app/scheduler/my-xquery-module</namespace>
             <directory>${basedir}/src/main/xquery</directory>
             <includes>
                 <include>example-module.xqm</include>
@@ -62,10 +62,6 @@
 
     <!-- register the Java module to eXist-db -->
     <components>
-        <resource>
-            <public-uri>${example.module.namespace}</public-uri>
-            <file>urn:java:class:org.exist.${example.module.java.classname}</file>
-        </resource>
     </components>
 
 </package>

@@ -15,13 +15,13 @@
     <artifactId>scheduler</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Example App</name>
-    <description>Example App for eXist-db</description>
-    <url>https://my-organisation.com/exist-db/app</url>
+    <name>Scheduler App</name>
+    <description>Scheduler App for eXist-db</description>
+    <url>https://exist-db.org/exist-db/app/scheduler</url>
 
     <organization>
-        <name>My Organisation</name>
-        <url>http://my-organisation.com</url>
+        <name>eXist-db</name>
+        <url>http://exist-db.org</url>
     </organization>
 
     <licenses>
@@ -33,14 +33,14 @@
     </licenses>
 
     <scm>
-        <url>https://www.github.com/my-organisation/example-exist-app.git</url>
-        <connection>scm:git:https://www.github.com/my-organisation/example-exist-app.git</connection>
-        <developerConnection>scm:git:https://www.github.com/my-organisation/example-exist-app.git</developerConnection>
+        <url>https://www.github.com/lcahlander/scheduler-exist-app.git</url>
+        <connection>scm:git:https://www.github.com/lcahlander/scheduler-exist-app.git</connection>
+        <developerConnection>scm:git:https://www.github.com/lcahlander/scheduler-exist-app.git</developerConnection>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://www.github.com/my-organisation/example-exist-app/issues</url>
+        <url>https://www.github.com/lcahlander/scheduler-exist-app/issues</url>
     </issueManagement>
 
     <properties>
@@ -51,10 +51,7 @@
         <exist.version>5.0.0</exist.version>
 
         <!-- used in the EXPath Package Descriptor -->
-        <package-name>https://my-organisation.com/exist-db/app</package-name>
-
-        <example.module.namespace>https://my-organisation.com/exist-db/ns/app/my-java-module</example.module.namespace>
-        <example.module.java.classname>ExampleModule</example.module.java.classname>
+        <package-name>https://exist-db.org/exist-db/app/scheduler</package-name>
     </properties>
 
     <dependencies>
@@ -121,6 +118,69 @@
 
         <plugins>
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/main/js/scheduler/build</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <!-- Use the latest released version:
+                https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+                <version>1.11.0</version>
+                <configuration>
+                    <nodeVersion>v15.7.0</nodeVersion>
+                    <npmVersion>7.4.3</npmVersion>
+                    <nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
+                    <npmDownloadRoot>http://registry.npmjs.org/npm/-/</npmDownloadRoot>
+                    <workingDirectory>src/main/js/scheduler</workingDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- optional: you don't really need execution ids, but it looks nice in your build log. -->
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <!-- optional: default phase is "generate-resources" -->
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>Build frontend</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
@@ -182,7 +242,7 @@
     <repositories>
         <repository>
             <id>exist-db</id>
-            <url>http://repo.evolvedbinary.com/repository/exist-db/</url>
+            <url>https://repo.evolvedbinary.com/repository/exist-db/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -192,7 +252,7 @@
         </repository>
         <repository>
             <id>exist-db-snapshots</id>
-            <url>http://repo.evolvedbinary.com/repository/exist-db-snapshots/</url>
+            <url>https://repo.evolvedbinary.com/repository/exist-db-snapshots/</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -205,7 +265,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>clojars.org</id>
-            <url>http://clojars.org/repo</url>
+            <url>https://clojars.org/repo</url>
         </pluginRepository>
     </pluginRepositories>
 </project>
